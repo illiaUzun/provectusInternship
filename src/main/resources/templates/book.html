@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Добавление клиента</title>
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">Банк</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05"
+            aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample05">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Клиенты банка<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/transactions">История транзакций<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <form class="form-inline mt-2 mt-md-0">
+            <input class="form-control mr-sm-2" type="text" placeholder="Введите текст" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+        </form>
+    </div>
+</nav>
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Добавление клиента</h2>
+        <p class="lead">Заполните поля и нажмите кнопку 'Добавить клиента'</p>
+    </div>
+
+    <form action="#" th:object="${book}"
+          class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="mb-3">Поля для заполнения</h4>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label for="title">Title</label>
+                        <input th:field="*{title}" type="text" class="form-control" id="title" placeholder=""
+                               value="" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="description">Description</label>
+                        <input th:field="*{description}" type="text" class="form-control" id="description"
+                               placeholder=""
+                               value="" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="genre">Genre</label>
+                        <input th:field="*{genre}" type="text" class="form-control" id="genre" placeholder=""
+                               value="" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="author">Author</label>
+                        <input th:field="*{author}" type="text" class="form-control" id="author" placeholder=""
+                               value="" required>
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+                        <label for="price">Price</label>
+                        <input th:field="*{author}" type="number" class="form-control" id="price" placeholder=""
+                               value="" required>
+                    </div>
+
+                    <button class="btn btn-primary btn-lg btn-block" type="button" value="Submit" data-toggle="modal"
+                            data-target="#orderModal">Добавить студента
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <hr class="mb-4">
+    </form>
+</div>
+
+<br/><br/><br/>
+
+<div class="myForm">
+
+    <form action="#" th:action="@{/add_order(id=${book.id})}" th:method="post"
+          class="needs-validation" novalidate>
+        <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="orderModalLabel">New message</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="book_id" class="col-form-label">Last name:</label>
+                            <input type="number" class="form-control" id="book_id" name="lastName" th:value="*{book.id}"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="lastName" class="col-form-label">Last name:</label>
+                            <input type="text" class="form-control" id="lastName" name="lastName" value=""/>
+                        </div>
+                        <div class="form-group">
+                            <label for="adress" class="col-form-label">Adress:</label>
+                            <input type="text" class="form-control" id="adress" name="adress" value=""/>
+                        </div>
+                        <div class="form-group">
+                            <label for="quantity" class="col-form-label">Quantity:</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value=""/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" value="Order book"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
