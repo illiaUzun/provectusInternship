@@ -9,87 +9,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
-    <title>Добавление клиента</title>
+    <title>Bookstore</title>
+
 </head>
 <body class="bg-light">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="#">Банк</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05"
-            aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarsExample05">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="/">Клиенты банка<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/transactions">История транзакций<span class="sr-only">(current)</span></a>
-            </li>
-        </ul>
-        <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Введите текст" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
-        </form>
-    </div>
-</nav>
-<div class="container">
-    <div class="py-5 text-center">
-        <h2>Добавление клиента</h2>
-        <p class="lead">Заполните поля и нажмите кнопку 'Добавить клиента'</p>
-    </div>
-
-    <form enctype="multipart/form-data" action="#" th:action="@{/add_book}" th:object="${book}" method="post"
-          class="needs-validation" novalidate>
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="mb-3">Поля для заполнения</h4>
-
-                <div class="row">
-
-                    <div class="col-md-4 mb-3">
-                        <label for="title">Title</label>
-                        <input th:field="*{title}" type="text" class="form-control" id="title" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="description">Description</label>
-                        <input th:field="*{description}" type="text" class="form-control" id="description"
-                               placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="genre">Genre</label>
-                        <input th:field="*{genre}" type="text" class="form-control" id="genre" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="author">Author</label>
-                        <input th:field="*{author}" type="text" class="form-control" id="author" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="price">Price</label>
-                        <input th:field="*{author}" type="number" class="form-control" id="price" placeholder=""
-                               value="" required>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">Добавить студента</button>
-
-    </form>
-</div>
-
-<br/><br/><br/>
-
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -102,5 +25,138 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+
+<script th:inline="javascript">
+    // $(document).ready(function(){
+    //     var i=1;
+    //     $(document).on('click', '.btn_add', function(){
+    //         i++;
+    //         $('#dynamic_field').append('<tr id="row'+i+'"><td><input field="author['+i+']" type="text" placeholder="Enter book author" class="form-control name_list" value="" id="author'+i+'" required/></td>\n' +
+    //             '                                                <td><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td></tr>');
+    //     });
+    //
+    //     $(document).on('click', '.btn_remove', function(){
+    //         var button_id = $(this).attr("id");
+    //         $('#row'+button_id+'').remove();
+    //     });
+    // });
+</script>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">Bookstore</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05"
+            aria-controls="navbarsExample05" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarsExample05">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/">Book list<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/orders">Order history<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="py-5 text-center">
+        <h2>Add new book</h2>
+        <p class="lead">Here you can add new book by filling following fields</p>
+    </div>
+    <br/>
+
+    <form enctype="multipart/form-data" action="#" th:action="@{/add_book}" th:object="${book}" method="post"
+          class="needs-validation" novalidate>
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="mb-3">Fields to fill:</h4>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            <div class="col-md-auto mb-3">
+                                <label for="title">Title</label>
+                                <input th:field="*{title}" type="text" class="form-control" id="title" placeholder=""
+                                       value="" required>
+                            </div>
+
+                            <div class="col-md-auto">
+                                <label for="genre">Genre</label>
+                            </div>
+
+                            <div class="col-md-auto mb-3">
+                                <div class="row">
+                                    <div class="col">
+                                        <select class="browser-default custom-select" th:field="*{genre}">
+                                            <option id="genre"
+                                                    value="" required
+                                                    th:each="genre:${allGenres}"
+                                                    th:value="${genre}"
+                                                    th:text="${genre}"></option>
+                                        </select>
+                                    </div>
+                                    <div col>
+                                        <!--<button id="newGenre" class="btn btn-primary btn-lg btn-block" type="button"-->
+                                                <!--value="">+</button>-->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-auto mb-3">
+                                <label for="description">Description</label>
+                                <input th:field="*{description}" type="text" class="form-control" id="description"
+                                       placeholder=""
+                                       value="" required>
+                            </div>
+
+                            <!--<div class="col-md-auto mb-3">-->
+                                <!--<label for="author">Author</label>-->
+                                <!--<input th:field="*{author}" type="text" class="form-control" id="author" placeholder=""-->
+                                       <!--value="" required>-->
+                            <!--</div>-->
+
+                            <div class="col-md-auto mb-3 form-group">
+                                <label for="author">Author</label>
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless" id="dynamic_field">
+                                            <tr>
+                                                <td><input th:field="*{author}" type="text" placeholder="Enter book author" class="form-control name_list" id="author" value="" required/></td>
+                                                <td><button type="button" name="add" class="btn btn-success btn_add">Add More</button></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                            </div>
+
+                            <div class="col-md-auto mb-3">
+                                <label for="price">Price ($)</label>
+                                <input th:field="*{price}" type="number" class="form-control" id="price" placeholder=""
+                                       value="" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <!--<div class="img-wrap">-->
+                            <!--<img width="350" height="480" src="../static/img/book.png" th:src="@{img/book.png}"-->
+                            <!--class="img-fluid img-thumbnail" alt="A book">-->
+                            <!--<h1>text</h1>-->
+                            <!--</div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr class="mb-4">
+        <button class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">Add new book</button>
+
+    </form>
+</div>
+
+<br/><br/><br/>
+
+
+
+
 </body>
 </html>

@@ -20,6 +20,12 @@ public class OrderController {
         this.bookService = bookService;
     }
 
+    @GetMapping("/orders")
+    public String index(Model model) {
+        model.addAttribute("orders", orderService.findAll());
+        return "orders";
+    }
+
     @PostMapping("/add_order")
     public String submitOrder(@RequestParam("id") Long id, @ModelAttribute Order order) {
         order.setBook(bookService.findOne(id).get());

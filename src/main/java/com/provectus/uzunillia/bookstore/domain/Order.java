@@ -1,5 +1,8 @@
 package com.provectus.uzunillia.bookstore.domain;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 
 @Entity
@@ -22,7 +25,8 @@ public class Order {
     @Column(name = "quantity")
     private int quantity;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Book book;
 
     public Order() {

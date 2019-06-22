@@ -3,6 +3,7 @@ package com.provectus.uzunillia.bookstore.service;
 import com.provectus.uzunillia.bookstore.domain.Order;
 import com.provectus.uzunillia.bookstore.repos.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,4 +57,12 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
+    /**
+     * Delete the orders of books with id.
+     *
+     * @param id the id of the entity
+     */
+//    public List<Order> deleteByBookId(Long id) {
+//        return orderRepository.findAllByBook_Id(id);
+//    }
 }

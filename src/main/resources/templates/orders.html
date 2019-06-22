@@ -26,7 +26,7 @@
                 <a class="nav-link" href="/">Book list<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="/orders">Order history<span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#">Order history<span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
@@ -40,54 +40,37 @@
     </div>
     <br/>
 
-    <form enctype="multipart/form-data" action="#" th:action="@{/edit_book(id=${book.id})}" th:object="${book}" th:method="put"
-          class="needs-validation" novalidate>
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="mb-3">Поля для заполнения</h4>
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="title">Title</label>
-                        <input th:field="*{title}" type="text" class="form-control" id="title" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="description">Description</label>
-                        <input th:field="*{description}" type="text" class="form-control" id="description" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="genre">Genre</label>
-                        <input th:field="*{genre}" type="text" class="form-control" id="genre" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="author">Author</label>
-                        <input th:field="*{author}" type="text" class="form-control" id="author" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="price">Price</label>
-                        <input th:field="*{price}" type="number" class="form-control" id="price" placeholder=""
-                               value="" required>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">Добавить студента</button>
-
-    </form>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="text-justify">#</th>
+                <th class="text-justify">First name</th>
+                <th class="text-justify">Last name</th>
+                <th class="text-justify">Adress</th>
+                <th class="text-justify">Quantity</th>
+                <th class="text-justify">Book</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td class="align-middle"><span th:text="${order.id}"/></td>
+                <td class="align-middle"><span th:text="${order.firstName}"/></td>
+                <td class="align-middle"><span th:text="${order.lastName}"/></td>
+                <td class="align-middle"><span th:text="${order.adress}"/></td>
+                <td class="align-middle"><span th:text="${order.quantity}"/></td>
+                <td class="align-middle"><span th:text="${order.book.title}"/></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
-<br/><br/><br/>
-
+<script>
+    function rowClicked(value) {
+        location.href = "/book?id=" + value;
+    }
+</script>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

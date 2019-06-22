@@ -1,9 +1,20 @@
 package com.provectus.uzunillia.bookstore.domain;
 
-import com.provectus.uzunillia.bookstore.domain.enums.Genre;
+import com.vladmihalcea.hibernate.type.array.StringArrayType;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
+import org.hibernate.annotations.TypeDefs;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Arrays;
+
+@TypeDefs({
+        @TypeDef(
+                name = "string-array",
+                typeClass = StringArrayType.class
+        )
+})
 
 @Entity
 @Table(name = "book")
@@ -22,17 +33,24 @@ public class Book {
     @Column(name = "price")
     private BigDecimal price;
 
-    @Column(name = "author")
+    @Type( type = "string-array" )
+    @Column(
+            name = "author",
+            columnDefinition = "text[]"
+    )
     private String[] author;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "genre")
-    private Genre genre;
+    @Type( type = "string-array" )
+    @Column(
+            name = "genre",
+            columnDefinition = "text[]"
+    )
+    private String[] genre;
 
     public Book() {
     }
 
-    public Book(String title, String description, BigDecimal price, String[] author, Genre genre) {
+    public Book(String title, String description, BigDecimal price, String[] author, String[] genre) {
         this.title = title;
         this.description = description;
         this.price = price;
@@ -80,11 +98,31 @@ public class Book {
         this.author = author;
     }
 
-    public Genre getGenre() {
+    public String[] getGenre() {
         return genre;
     }
 
-    public void setGenre(Genre genre) {
+    public void setGenre(String[] genre) {
         this.genre = genre;
+    }
+
+    public String showGenres() {
+        return Arrays.toString(genre).replaceAll("[\\_]", " ").replace('[', ' ').replace(']', ' ');
+    }
+
+    public String showAuthors() {
+        return Arrays.toString(author).replaceAll("[\\_]", " ").replace('[', ' ').replace(']', ' ');
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", author=" + Arrays.toString(author) +
+                ", genre=" + Arrays.toString(genre) +
+                '}';
     }
 }
