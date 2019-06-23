@@ -34,9 +34,9 @@ public class BookController {
                         Model model) {
         List<Book> books = filter(title, genre, author);
         model.addAttribute("books", books);
+        model.addAttribute("allGenres", Genre.values());
         return "index";
     }
-
     private List<Book> filter(String title, String genre, String author) {
         ArrayList<Book> filteredList = new ArrayList<>();
 
@@ -57,12 +57,9 @@ public class BookController {
         }
         return filteredList;
     }
-
-
     @GetMapping("/book")
     public String viewBook(@RequestParam("id") Long id, Model model) {
         model.addAttribute("book", bookService.findOne(id).get());
-//        model.addAttribute("order", new Order());
         return "book";
     }
 

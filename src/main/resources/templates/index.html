@@ -13,6 +13,31 @@
 </head>
 <body class="bg-light">
 
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script th:inline="javascript">
+    $('#submitForm').submit(function (e) {
+        var form = this;
+        e.preventDefault();
+        $.ajax({
+            type: form.attr('method'),
+            url: '/?title=' + document.getElementById('title').value + '&author=' + document.getElementById('author').value + document.getElementById('genre').value,
+            dataType: 'json',
+            data: JSON.stringify(formData)
+        });
+    });
+</script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">Bookstore</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05"
@@ -43,21 +68,46 @@
         <p class="lead">Here you can see a list of books from our shop</p>
     </div>
 
-
-    <div class="row">
-        <!--<div class="col">-->
-        <!--<h2>Все клиенты:</h2>-->
-        <!--</div>-->
-        <div class="col col-lg-3">
-            <a th:href="@{~/add_book}" class="btn btn-lg btn-block btn-outline-primary html-editor-align-right"
-               role="button"
-               aria-disabled="true">Add new book</a>
-        </div>
-
+    <div class="col html-editor-align-center">
+        <form  id="submitForm" method="get" novalidate>
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" placeholder=""
+                           value="" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="author">Author</label>
+                    <input type="text" class="form-control" id="author" placeholder=""
+                           value="" required>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="genre">Genre</label>
+                    <select id="mainSelector" name="genre" class="browser-default custom-select">
+                        <option disabled selected value> -- select an option -- </option>
+                        <option id="genre"
+                                value=""
+                                th:each="genre:${allGenres}"
+                                th:value="${genre}"
+                                th:text="${genre}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-5 mb-2">
+                </div>
+                <div class="col-md-2 mb-2">
+                        <button class="btn btn-outline-info btn-lg btn-block" type="submit" value="Submit">Search
+                        </button>
+                    </div>
+                <div class="col-md-5 mb-2">
+                </div>
+            </div>
+        </form>
     </div>
 
-    <br/>
 
+    <br/>
     <!--<div th:if="${message}" class="alert alert-success" role="alert">-->
     <!--<p th:text="${message}">success message</p>-->
     <!--</div>-->
@@ -73,21 +123,22 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="book : ${books}" style="cursor: pointer" th:onclick="'javascript:rowClicked(\'' + ${book.id} + '\');'">
+            <tr th:each="book : ${books}" style="cursor: pointer"
+                th:onclick="'javascript:rowClicked(\'' + ${book.id} + '\');'">
                 <a th:href="@{~/edit_book(id=${book.id})}" aria-disabled="true">
                     <td class="align-middle"><span th:text="${book.title}"/></td>
                     <td class="align-middle"><span th:text="${book.showGenres()}"/></td>
                     <td class="align-middle"><span th:text="${book.showAuthors()}"/></td>
                     <td class="align-middle"><span th:text="${book.price}"/></td>
                     <td class="align-middle">
-                        <a th:href="@{~/edit_book(id=${book.id})}" class="btn btn-lg btn-block btn-outline-primary"
+                        <a th:href="@{~/edit_book(id=${book.id})}" class="btn btn-outline-success btn-lg btn-block"
                            role="button"
                            aria-disabled="true">Edit</a>
                     </td>
                     <td class="align-middle">
                         <form action="#" th:action="@{~/delete_book(id=${book.id})}" th:method="delete">
                             <input type="hidden" name="_method" value="delete"/>
-                            <button class="btn btn-lg btn-block btn-outline-primary" type="submit" id="submitButton">
+                            <button class="btn btn-outline-danger btn-lg btn-block" type="submit" id="submitButton">
                                 Delete
                             </button>
                         </form>
@@ -97,24 +148,22 @@
             </tbody>
         </table>
     </div>
+    <br/>
+    <br/>
+    <div class="row">
+        <div class="col col-lg-3">
+            <a th:href="@{~/add_book}" class="btn btn-lg btn-block btn-outline-primary html-editor-align-right"
+               role="button"
+               aria-disabled="true">Add new book</a>
+        </div>
+    </div>
 </div>
+
 
 <script>
     function rowClicked(value) {
         location.href = "/book?id=" + value;
     }
 </script>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 </body>
 </html>
