@@ -10,10 +10,11 @@
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <title>Bookstore</title>
+
 </head>
 <body class="bg-light">
+
 <!-- JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
@@ -39,33 +40,17 @@
         });
         $(document).on('click', '.btn_add_genre', function () {
             i++;
-            $('#dynamic_field_genre').append('<tr id="row' + i + '"><td><input name="genre" type="text" placeholder="" class="form-control genre-list" value="" id="genre' + i + '" required/></td>\n' +
-                '<td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+            $('#dynamic_field_genre').append('<tr id="rowG' + i + '"><td><input name="genre" type="text" placeholder="" class="form-control genre-list" value="" id="genre' + i + '" required/></td>\n' +
+                '<td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove_genre">X</button></td></tr>');
             var genre = document.getElementById("mainSelector").value;
             document.getElementById("genre" + i).value = genre;
         });
         $(document).on('click', '.btn_remove_genre', function () {
             var button_id = $(this).attr("id");
-            $('#row' + button_id + '').remove();
+            $('#rowG' + button_id + '').remove();
         });
     });
-
-    $('#submitForm').submit(function (e) {
-        var form = this;
-        e.preventDefault();
-        var formData = {}
-        $.each(this, function (i, v) {
-            var input = $(v);
-            formData[input.attr("name")] = input.val();
-        });
-        $.ajax({
-            type: form.attr('method'), // method attribute of form
-            url: form.attr('action'),  // action attribute of form
-            dataType: 'json',
-            data: JSON.stringify(formData)
-        });
-    });
-</script>
+ </script>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">Bookstore</a>
@@ -90,8 +75,8 @@
 <!--Using th:action, th:object, th:method, th:field attributes like that:-->
 
 <!--<form th:action="@{/add_book}" th:object="${book}" th:method="post">-->
-        <!--<label for="title">Title</label>-->
-        <!--<input th:field="*{title}" id="title" value="">-->
+<!--<label for="title">Title</label>-->
+<!--<input th:field="*{title}" id="title" value="">-->
 <!--<button type="submit" value="Submit">Add new book</button>-->
 
 <!--But it could have only static th:fields because it's server-side function. I would like to have dynamic fields-->
@@ -106,93 +91,93 @@
     </div>
     <br/>
 
-    <form id="submitForm" action="/add_book" method="post">
-        <div class="row">
+    <form class="needs-validation" enctype="multipart/form-data" action="#" id="submitForm" th:action="@{/add_book}" th:object="${book}" th:method="post">
+
+    <div class="row">
             <div class="col-md-12">
-                <h4 class="mb-3">Fields to fill:</h4>
                 <div class="container">
                     <div class="row">
-                        <div class="col">
+
+                        <div class="col-md-2">
+                    </div>
+                        <div class="col-md-8">
+                            <h4 class="mb-3">Fields to fill:</h4>
+
                             <div class="col-md-auto mb-3">
                                 <label for="title">Title</label>
-                                <input name="title" type="text" class="form-control" id="title" placeholder=""
+                                <input th:field="*{title}" name="title" type="text" class="form-control" id="title" placeholder=""
                                        value="" required>
+                            </div>
+
+                            <div class="col-md-auto mb-3">
+                                <label for="description">Description</label>
+                                <textarea th:field="*{description}" name="description" rows="3" class="form-control" id="description"
+                                          placeholder=""
+                                          value="" required></textarea>
+                            </div>
+
+                            <div class="col-md-auto">
+                                <label for="genre">Author</label>
+                            </div>
+
+                            <div class="col-md-auto mb-3 form-group">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless" id="dynamic_field">
+                                        <tr>
+                                            <td><input th:field="*{author}" name="author" type="text" placeholder="Enter book author"
+                                                       class="form-control author_list" id="author" value="" required/>
+                                            </td>
+                                            <td>
+                                                <button type="button" name="add" class="btn btn-success btn_add">+</button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
 
                             <div class="col-md-auto">
                                 <label for="genre">Genre</label>
                             </div>
 
-                            <div class="col-md-auto mb-3">
-                                <div class="row">
-                                   <div class="col-md-auto mb-3 form-group">
-                                        <div class="table-responsive">
-                                            <table class="table table-borderless" id="dynamic_field_genre">
-                                                <tr>
-                                                    <td>
-                                                        <select id="mainSelector" name="genre" class="browser-default custom-select">
-                                                            <option id="genre"
-                                                                    value=""
-                                                                    th:each="genre:${allGenres}"
-                                                                    th:value="${genre}"
-                                                                    th:text="${genre}"></option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" name="add" class="btn btn-success btn_add_genre">Add
-                                                            More
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-                                    <div col>
-                                        <!--<button id="newGenre" class="btn btn-primary btn-lg btn-block" type="button"-->
-                                        <!--value="">+</button>-->
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-auto mb-3">
-                                <label for="description">Description</label>
-                                <textarea name="description" rows="3" class="form-control" id="description"
-                                          placeholder=""
-                                          value="" required></textarea>
-                            </div>
-
-                            <div class="col-md-auto mb-3">
-                                <label for="price">Price ($)</label>
-                                <input name="price" type="number" class="form-control" id="price" placeholder=""
-                                       value="" required>
-                            </div>
-                        </div>
-                        <div class="col">
                             <div class="col-md-auto mb-3 form-group">
-                                <label for="author">Author</label>
                                 <div class="table-responsive">
-                                    <table class="table table-borderless" id="dynamic_field">
+                                    <table class="table table-borderless" id="dynamic_field_genre">
                                         <tr>
-                                            <td><input name="author" type="text" placeholder="Enter book author"
-                                                       class="form-control author_list" id="author" value="" required/>
+                                            <td>
+                                                <select th:field="*{genre}" id="mainSelector" name="genre"
+                                                        class="form-control browser-default custom-select">
+                                                    <option id="genre"
+                                                            value=""
+                                                            th:each="genre:${allGenres}"
+                                                            th:value="${genre}"
+                                                            th:text="${genre}"></option>
+                                                </select>
                                             </td>
                                             <td>
-                                                <button type="button" name="add" class="btn btn-success btn_add">Add
-                                                    More
-                                                </button>
+                                                <button type="button" name="add" class="btn btn-success btn_add_genre">+</button>
                                             </td>
+                                            <td></td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
+
+                            <div class="col-md-auto mb-3">
+                                <label for="price">Price ($)</label>
+                                <input th:field="*{price}" name="price" type="number" class="form-control" id="price" placeholder=""
+                                       value="" required>
+                            </div>
+                            <div class="col-md-auto mb-3">
+                                <hr class="mb-4">
+                                <button class="btn btn-primary btn-lg btn-block submit-btn" type="submit" value="Submit">Submit modification</button>
+                            </div>
+                        </div>
+                        <div class="col-md-mb-2">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block submit-btn" type="submit" value="Submit">Add new book</button>
-
     </form>
 </div>
 

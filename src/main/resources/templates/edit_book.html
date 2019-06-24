@@ -13,6 +13,49 @@
 </head>
 <body class="bg-light">
 
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script th:inline="javascript">
+
+    $(document).ready(function () {
+        var i = document.getElementsByClassName('btn_remove').length;
+        var j = document.getElementsByClassName('btn_remove_genre').length;
+
+        $(document).on('click', '.btn_add', function () {
+            i++;
+            $('#dynamic_field').append('<tr id="row' + i + '"><td><input name="author" type="text" placeholder="Enter book author" class="form-control author_list" value="" id="author' + i + '" required/></td>\n' +
+                '<td><button type="button" name="remove" id="' + i + '" class="btn btn-danger btn_remove">X</button></td></tr>');
+        });
+        $(document).on('click', '.btn_remove', function () {
+            var button_id = $(this).attr("id");
+            $('#row' + button_id + '').remove();
+        });
+        $(document).on('click', '.btn_add_genre', function () {
+            j++;
+            var genre = document.getElementById("mainSelector").value;
+            if (genre != "") {
+                $('#dynamic_field_genre').append('<tr id="rowG' + j + '"><td><input readonly name="genre" type="text" placeholder="" class="form-control genre-list" value="" id="genre' + j + '" required/></td>\n' +
+                    '<td><button type="button" name="remove" id="' + j + '" class="btn btn-danger btn_remove_genre">X</button></td></tr>');
+                document.getElementById("genre" + j).value = genre;
+            }
+        });
+        $(document).on('click', '.btn_remove_genre', function () {
+            var button_id = $(this).attr("id");
+            $('#rowG' + button_id + '').remove();
+        });
+    });
+</script>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">Bookstore</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample05"
@@ -33,72 +76,129 @@
 </nav>
 
 <div class="container">
-
     <div class="py-5 text-center">
-        <h2>Orders</h2>
-        <p class="lead">Here you can see a list of orders booked within our shop</p>
+        <h2>Edit "<span th:text="${book.title}"></span>" book</h2>
+        <p class="lead">Here you can add edit book by modification of following fields</p>
     </div>
     <br/>
 
-    <form enctype="multipart/form-data" action="#" th:action="@{/edit_book(id=${book.id})}" th:object="${book}" th:method="put"
-          class="needs-validation" novalidate>
+    <form class="needs-validation" enctype="multipart/form-data" action="#" id="submitForm"
+          th:action="@{/edit_book(id=${book.id})}" th:object="${book}" th:method="put">
         <div class="row">
             <div class="col-md-12">
-                <h4 class="mb-3">Поля для заполнения</h4>
+                <div class="container">
+                    <div class="row">
 
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="title">Title</label>
-                        <input th:field="*{title}" type="text" class="form-control" id="title" placeholder=""
-                               value="" required>
+                        <div class="col-md-2">
+                        </div>
+                        <div class="col-md-8">
+                            <h4 class="mb-3">Fields to fill:</h4>
+
+                            <div class="col-md-auto mb-3">
+                                <label for="title">Title</label>
+                                <input th:field="*{title}" name="title" type="text" class="form-control" id="title"
+                                       placeholder=""
+                                       value="" required>
+                            </div>
+
+                            <div class="col-md-auto mb-3">
+                                <label for="description">Description</label>
+                                <textarea th:field="*{description}" name="description" rows="3" class="form-control"
+                                          id="description"
+                                          placeholder=""
+                                          value="" required></textarea>
+                            </div>
+
+                            <div class="col-md-auto">
+                                <label for="genre">Author</label>
+                                <button type="button" name="add" class="btn btn-success btn_add">+
+                                </button>
+                            </div>
+
+                            <div class="col-md-auto mb-3 form-group">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless" id="dynamic_field">
+                                        <tr th:each="author, iStat : ${book.author}" th:id="row + ${iStat.index}">
+                                            <td>
+                                                <input name="author" type="text" placeholder="Enter book author"
+                                                       class="form-control author_list" th:value="${author}"
+                                                       th:id="author + ${iStat.index}" required/>
+                                            </td>
+                                            <td>
+                                                <button type="button" name="remove" th:id="${iStat.index}"
+                                                        class="btn btn-danger btn_remove">X
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-auto">
+                                <label for="genre">Genre</label>
+                            </div>
+
+                            <div class="col-md-auto mb-3 form-group">
+                                <div class="table-responsive">
+                                    <table class="table table-borderless" id="dynamic_field_genre">
+                                        <tr>
+                                            <td>
+                                                <select id="mainSelector" name="genre"
+                                                        class="form-control browser-default custom-select">
+                                                    <option selected value> -- add new genre --</option>
+                                                    <option id="genre"
+                                                            value=""
+                                                            th:each="genre:${allGenres}"
+                                                            th:value="${genre}"
+                                                            th:text="${genre}"></option>
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <button type="button" name="add" class="btn btn-success btn_add_genre">+
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr th:each="genre, iStat : ${book.genre}" th:id="rowG + ${iStat.index}">
+                                            <td>
+                                                <input name="genre" type="text" placeholder="" readonly
+                                                       class="form-control genre-list" th:value="${genre}"
+                                                       th:id="genre + ${iStat.index}"
+                                                       required/>
+                                            </td>
+                                            <td>
+                                                <button type="button" name="remove" th:id="${iStat.index}"
+                                                        class="btn btn-danger btn_remove_genre">X
+                                                </button>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="col-md-auto mb-3">
+                                <label for="price">Price ($)</label>
+                                <input th:field="*{price}" name="price" type="number" class="form-control" id="price"
+                                       placeholder=""
+                                       value="" required>
+                            </div>
+                            <div class="col-md-auto mb-3">
+                                <hr class="mb-4">
+                                <button class="btn btn-primary btn-lg btn-block submit-btn" type="submit"
+                                        value="Submit">Submit modification
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-mb-2">
+                        </div>
                     </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="description">Description</label>
-                        <input th:field="*{description}" type="text" class="form-control" id="description" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="genre">Genre</label>
-                        <input th:field="*{genre}" type="text" class="form-control" id="genre" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="author">Author</label>
-                        <input th:field="*{author}" type="text" class="form-control" id="author" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="price">Price</label>
-                        <input th:field="*{price}" type="number" class="form-control" id="price" placeholder=""
-                               value="" required>
-                    </div>
-
                 </div>
             </div>
         </div>
-        <hr class="mb-4">
-        <button class="btn btn-primary btn-lg btn-block" type="submit" value="Submit">Добавить студента</button>
-
     </form>
 </div>
 
 <br/><br/><br/>
-
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 </body>
 </html>

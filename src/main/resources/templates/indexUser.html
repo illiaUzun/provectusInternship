@@ -33,7 +33,7 @@
         console.log(title + author);
         $.ajax({
             type: form.attr('method'),
-            url: '/?title=' + title + '&author=' + author + '&genre' + document.getElementById('genre').value,
+            url: '/user?title=' + title + '&author=' + author + '&genre' + document.getElementById('genre').value,
             dataType: 'json',
             data: JSON.stringify(formData)
         })
@@ -51,9 +51,6 @@
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" href="#">Book list<span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="/orders">Order history<span class="sr-only">(current)</span></a>
             </li>
         </ul>
     </div>
@@ -101,7 +98,7 @@
                 <div class="col-md-3 mb-2">
                 </div>
                 <div class="col-md-2 mb-2">
-                    <a href="/" class="btn btn-outline-dark btn-lg btn-block" role="button">Refresh filters
+                    <a href="/user" class="btn btn-outline-dark btn-lg btn-block" role="button">Refresh filters
                     </a>
                 </div>
             </div>
@@ -128,19 +125,6 @@
                     <td class="align-middle"><span th:text="${book.showGenres()}"/></td>
                     <td class="align-middle"><span th:text="${book.showAuthors()}"/></td>
                     <td class="align-middle"><span th:text="${book.price}"/></td>
-                    <td class="align-middle">
-                        <a th:href="@{~/edit_book(id=${book.id})}" class="btn btn-outline-success btn-lg btn-block"
-                           role="button"
-                           aria-disabled="true">Edit</a>
-                    </td>
-                    <td class="align-middle">
-                        <form action="#" th:action="@{~/delete_book(id=${book.id})}" th:method="delete">
-                            <input type="hidden" name="_method" value="delete"/>
-                            <button class="btn btn-outline-danger btn-lg btn-block" type="submit" id="submitButton">
-                                Delete
-                            </button>
-                        </form>
-                    </td>
                 </a>
             </tr>
             </tbody>
@@ -148,13 +132,6 @@
     </div>
     <br/>
     <br/>
-    <div class="row">
-        <div class="col col-lg-3">
-            <a th:href="@{~/add_book}" class="btn btn-lg btn-block btn-outline-primary html-editor-align-right"
-               role="button"
-               aria-disabled="true">Add new book</a>
-        </div>
-    </div>
 </div>
 <script>
     function rowClicked(value) {

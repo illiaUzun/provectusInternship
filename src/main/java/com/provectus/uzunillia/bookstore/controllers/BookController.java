@@ -1,10 +1,8 @@
 package com.provectus.uzunillia.bookstore.controllers;
 
 import com.provectus.uzunillia.bookstore.domain.Book;
-import com.provectus.uzunillia.bookstore.domain.Order;
 import com.provectus.uzunillia.bookstore.domain.enums.Genre;
 import com.provectus.uzunillia.bookstore.service.BookService;
-import com.provectus.uzunillia.bookstore.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,23 +18,40 @@ import java.util.Objects;
 public class BookController {
 
     private BookService bookService;
-    private OrderService orderService;
 
     @Autowired
-    public void setService(BookService bookService, OrderService orderService) {
+    public void setService(BookService bookService) {
         this.bookService = bookService;
     }
 
     @GetMapping("/")
-    public String index(@RequestParam(value = "title", defaultValue = "", required = false) String title,
-                        @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
+    public String indexAdmin(@RequestParam(value = "title", defaultValue = "", required = false) String title,
                         @RequestParam(value = "author", defaultValue = "", required = false) String author,
+                        @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
                         Model model) {
         List<Book> books = filter(title, genre, author);
         model.addAttribute("books", books);
         model.addAttribute("allGenres", Genre.values());
+        model.addAttribute("title", title);
+        model.addAttribute("author", author);
+        model.addAttribute("genreSearch", genre);
         return "index";
     }
+
+    @GetMapping("/user")
+    public String indexUser(@RequestParam(value = "title", defaultValue = "", required = false) String title,
+                        @RequestParam(value = "author", defaultValue = "", required = false) String author,
+                        @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
+                        Model model) {
+        List<Book> books = filter(title, genre, author);
+        model.addAttribute("books", books);
+        model.addAttribute("allGenres", Genre.values());
+        model.addAttribute("title", title);
+        model.addAttribute("author", author);
+        model.addAttribute("genreSearch", genre);
+        return "indexUser";
+    }
+
     private List<Book> filter(String title, String genre, String author) {
         ArrayList<Book> filteredList = new ArrayList<>();
 
@@ -85,6 +100,7 @@ public class BookController {
     @GetMapping("/edit_book")
     public String editBook(@RequestParam("id") Long id, Model model) {
         model.addAttribute("book", bookService.findOne(id).get());
+        model.addAttribute("allGenres", Genre.values());
         return "edit_book";
     }
 

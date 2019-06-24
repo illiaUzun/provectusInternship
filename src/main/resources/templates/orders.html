@@ -33,18 +33,15 @@
 </nav>
 
 <div class="container">
-
     <div class="py-5 text-center">
         <h2>Orders</h2>
         <p class="lead">Here you can see a list of orders booked within our shop</p>
     </div>
     <br/>
-
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th class="text-justify">#</th>
                 <th class="text-justify">First name</th>
                 <th class="text-justify">Last name</th>
                 <th class="text-justify">Adress</th>
@@ -54,7 +51,6 @@
             </thead>
             <tbody>
             <tr th:each="order : ${orders}">
-                <td class="align-middle"><span th:text="${order.id}"/></td>
                 <td class="align-middle"><span th:text="${order.firstName}"/></td>
                 <td class="align-middle"><span th:text="${order.lastName}"/></td>
                 <td class="align-middle"><span th:text="${order.adress}"/></td>
@@ -65,23 +61,5 @@
         </table>
     </div>
 </div>
-
-<script>
-    function rowClicked(value) {
-        location.href = "/book?id=" + value;
-    }
-</script>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
 </body>
 </html>

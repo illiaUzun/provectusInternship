@@ -33,60 +33,24 @@
 </nav>
 
 <div class="container">
-
-    <div class="py-5 text-center">
-        <h2>Orders</h2>
-        <p class="lead">Here you can see a list of orders booked within our shop</p>
+    <div class="py-5 text-center mx-auto col-md-6">
+        <h2 th:text="${book.title}"></h2>
+        <p class="lead" th:text="${book.description}"></p>
+        </br>
+        <p class="text-left">Author:</p>
+        <p class="lead font-italic" th:text="${book.showAuthors()}"></p>
+        <p class="text-left">Genre:</p>
+        <p class="lead light" th:text="${book.showGenres()}"></p>
+        <p class="text-left">Price ($)</p>
+        <p class="lead light" th:text="${book.price}"></p>
+        </br>
+        </br>
+        </br>
+        <button class="btn btn-outline-primary" type="button" value="" data-toggle="modal"
+                data-target="#orderModal">Order now
+        </button>
     </div>
     <br/>
-
-    <form action="#" th:object="${book}"
-          class="needs-validation" novalidate>
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="mb-3">Поля для заполнения</h4>
-
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label for="title">Title</label>
-                        <input th:field="*{title}" type="text" class="form-control" id="title" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="description">Description</label>
-                        <input th:field="*{description}" type="text" class="form-control" id="description"
-                               placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="genre">Genre</label>
-                        <input th:field="*{genre}" type="text" class="form-control" id="genre" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="author">Author</label>
-                        <input th:field="*{author}" type="text" class="form-control" id="author" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label for="price">Price</label>
-                        <input th:field="*{author}" type="number" class="form-control" id="price" placeholder=""
-                               value="" required>
-                    </div>
-
-                    <button class="btn btn-primary btn-lg btn-block" type="button" value="Submit" data-toggle="modal"
-                            data-target="#orderModal">Добавить студента
-                    </button>
-
-                </div>
-            </div>
-        </div>
-        <hr class="mb-4">
-    </form>
 </div>
 
 <br/><br/><br/>
@@ -94,21 +58,25 @@
 <div class="myForm">
 
     <form action="#" th:action="@{/add_order(id=${book.id})}" th:method="post"
-          class="needs-validation" novalidate>
+          class="needs-validation">
         <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel"
              aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="orderModalLabel">New message</h5>
+                        <h5 class="modal-title" id="orderModalLabel">Order this book</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
+                        <div hidden class="form-group">
+                            <label for="bookId" class="col-form-label">Id:</label>
+                            <input type="text" class="form-control" id="bookId" name="bookId" th:value="${book.id}"/>
+                        </div>
                         <div class="form-group">
-                            <label for="book_id" class="col-form-label">Last name:</label>
-                            <input type="number" class="form-control" id="book_id" name="lastName" th:value="*{book.id}"/>
+                            <label for="firstName" class="col-form-label">First name:</label>
+                            <input type="text" class="form-control" id="firstName" name="firstName" value=""/>
                         </div>
                         <div class="form-group">
                             <label for="lastName" class="col-form-label">Last name:</label>
