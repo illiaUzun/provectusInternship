@@ -71,19 +71,6 @@
     </div>
 </nav>
 
-<!--The first version of this page was based on thymeleaf method of posting an object to the server.-->
-<!--Using th:action, th:object, th:method, th:field attributes like that:-->
-
-<!--<form th:action="@{/add_book}" th:object="${book}" th:method="post">-->
-<!--<label for="title">Title</label>-->
-<!--<input th:field="*{title}" id="title" value="">-->
-<!--<button type="submit" value="Submit">Add new book</button>-->
-
-<!--But it could have only static th:fields because it's server-side function. I would like to have dynamic fields-->
-<!--for author and genre parametrs, so admin could add as much of them as he wants, so i decided to read data from input fields -->
-<!--and send them using ajax.js -->
-
-
 <div class="container">
     <div class="py-5 text-center">
         <h2>Add new book</h2>

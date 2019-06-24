@@ -57,12 +57,4 @@ public class OrderService {
         orderRepository.deleteById(id);
     }
 
-    /**
-     * Delete the orders of books with id.
-     *
-     * @param id the id of the entity
-     */
-//    public List<Order> deleteByBookId(Long id) {
-//        return orderRepository.findAllByBook_Id(id);
-//    }
 }
