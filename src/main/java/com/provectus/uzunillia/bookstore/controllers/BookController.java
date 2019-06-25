@@ -14,6 +14,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Main controller class
+ *
+ * contains REST api methods to access
+ * execute Book services
+ */
 @Controller
 public class BookController {
 
@@ -29,7 +35,7 @@ public class BookController {
                         @RequestParam(value = "author", defaultValue = "", required = false) String author,
                         @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
                         Model model) {
-        List<Book> books = filterListConroller(title, genre, author);
+        List<Book> books = filterList(title, genre, author);
         model.addAttribute("books", books);
         model.addAttribute("allGenres", Genre.values());
         model.addAttribute("title", title);
@@ -43,7 +49,7 @@ public class BookController {
                         @RequestParam(value = "author", defaultValue = "", required = false) String author,
                         @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
                         Model model) {
-        List<Book> books = filterListConroller(title, genre, author);
+        List<Book> books = filterList(title, genre, author);
         model.addAttribute("books", books);
         model.addAttribute("allGenres", Genre.values());
         model.addAttribute("title", title);
@@ -52,26 +58,6 @@ public class BookController {
         return "indexUser";
     }
 
-    private List<Book> filterListConroller(String title, String genre, String author) {
-        ArrayList<Book> filteredList = new ArrayList<>();
-
-        if (bookService.findAll() != null) {
-            for (Book book : bookService.findAll()) {
-                boolean isTitleMatches = Objects.requireNonNull(book.getTitle().toLowerCase()).startsWith(title.toLowerCase());
-                boolean isGenreMatches = Objects.requireNonNull(Arrays.toString(book.getGenre())).contains(genre);
-                boolean isAuthorMatches = Objects.requireNonNull(Arrays.toString(book.getAuthor()).toLowerCase()).contains(author.toLowerCase());
-
-                if (isTitleMatches) {
-                    if (isAuthorMatches) {
-                        if (isGenreMatches) {
-                            filteredList.add(book);
-                        }
-                    }
-                }
-            }
-        }
-        return filteredList;
-    }
     @GetMapping("/book")
     public String viewBook(@RequestParam("id") Long id, Model model) {
         model.addAttribute("book", bookService.findOne(id).get());
@@ -114,5 +100,33 @@ public class BookController {
     public String deleteBook(@RequestParam("id") Long id) {
         bookService.delete(id);
         return "redirect:/";
+    }
+
+    /**
+     * List filter util method
+     * @param title - title of book to search
+     * @param genre - title of book to search
+     * @param author - title of book to search
+     * @return List of book by searching parameters
+     */
+    private List<Book> filterList(String title, String genre, String author) {
+        ArrayList<Book> filteredList = new ArrayList<>();
+
+        if (bookService.findAll() != null) {
+            for (Book book : bookService.findAll()) {
+                boolean isTitleMatches = Objects.requireNonNull(book.getTitle().toLowerCase()).startsWith(title.toLowerCase());
+                boolean isGenreMatches = Objects.requireNonNull(Arrays.toString(book.getGenre())).contains(genre);
+                boolean isAuthorMatches = Objects.requireNonNull(Arrays.toString(book.getAuthor()).toLowerCase()).contains(author.toLowerCase());
+
+                if (isTitleMatches) {
+                    if (isAuthorMatches) {
+                        if (isGenreMatches) {
+                            filteredList.add(book);
+                        }
+                    }
+                }
+            }
+        }
+        return filteredList;
     }
 }

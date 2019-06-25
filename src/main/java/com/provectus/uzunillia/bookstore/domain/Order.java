@@ -5,6 +5,9 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
+/**
+ * Order entity
+ */
 @Entity
 @Table(name = "orders")
 public class Order {

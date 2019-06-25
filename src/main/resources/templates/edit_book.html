@@ -96,14 +96,14 @@
 
                             <div class="col-md-auto mb-3">
                                 <label for="title">Title</label>
-                                <input th:field="*{title}" name="title" type="text" class="form-control" id="title"
+                                <input th:field="*{title}" name="title" maxlength="250" type="text" class="form-control" id="title"
                                        placeholder=""
                                        value="" required>
                             </div>
 
                             <div class="col-md-auto mb-3">
                                 <label for="description">Description</label>
-                                <textarea th:field="*{description}" name="description" rows="3" class="form-control"
+                                <textarea th:field="*{description}" maxlength="250" name="description" rows="3" class="form-control"
                                           id="description"
                                           placeholder=""
                                           value="" required></textarea>
@@ -179,7 +179,7 @@
 
                             <div class="col-md-auto mb-3">
                                 <label for="price">Price ($)</label>
-                                <input th:field="*{price}" name="price" type="number" class="form-control" id="price"
+                                <input th:field="*{price}" name="price" type="number" step="0.01" class="form-control" id="price" min="0"
                                        placeholder=""
                                        value="" required>
                             </div>

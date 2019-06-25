@@ -9,6 +9,9 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+/**
+ * array-type definition
+ */
 @TypeDefs({
         @TypeDef(
                 name = "string-array",
@@ -16,6 +19,9 @@ import java.util.Arrays;
         )
 })
 
+/**
+ * Book Entity class
+ */
 @Entity
 @Table(name = "book")
 public class Book {

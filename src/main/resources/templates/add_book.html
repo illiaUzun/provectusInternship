@@ -92,13 +92,13 @@
 
                             <div class="col-md-auto mb-3">
                                 <label for="title">Title</label>
-                                <input th:field="*{title}" name="title" type="text" class="form-control" id="title" placeholder=""
+                                <input th:field="*{title}" name="title" type="text" maxlength="250" class="form-control" id="title" placeholder=""
                                        value="" required>
                             </div>
 
                             <div class="col-md-auto mb-3">
                                 <label for="description">Description</label>
-                                <textarea th:field="*{description}" name="description" rows="3" class="form-control" id="description"
+                                <textarea th:field="*{description}" name="description" maxlength="250" rows="3" class="form-control" id="description"
                                           placeholder=""
                                           value="" required></textarea>
                             </div>
@@ -151,12 +151,12 @@
 
                             <div class="col-md-auto mb-3">
                                 <label for="price">Price ($)</label>
-                                <input th:field="*{price}" name="price" type="number" class="form-control" id="price" placeholder=""
+                                <input th:field="*{price}" name="price" type="number" class="form-control" id="price" step="0.01" placeholder="" min="0"
                                        value="" required>
                             </div>
                             <div class="col-md-auto mb-3">
                                 <hr class="mb-4">
-                                <button class="btn btn-primary btn-lg btn-block submit-btn" type="submit" value="Submit">Submit modification</button>
+                                <button class="btn btn-primary btn-lg btn-block submit-btn" type="submit" value="Submit">Submit new book</button>
                             </div>
                         </div>
                         <div class="col-md-mb-2">
