@@ -47,3 +47,5 @@ To run an application you should:<br/>
 createdb -h localhost -p 5432 -U postgres --password 12345 springbootdb <br />
 4) Run application using IDE or with following command: <br/>
 mvn spring-boot:run<br/>
+<br/>
+I also would like to create unit and integration test (i usually do those) but there is not much time until deadline left. <br/>
