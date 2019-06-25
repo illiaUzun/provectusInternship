@@ -49,3 +49,5 @@ createdb -h localhost -p 5432 -U postgres --password 12345 springbootdb <br />
 mvn spring-boot:run<br/>
 <br/>
 I also would like to create unit and integration test (i usually do those) but there is not much time until deadline left. <br/>
+<br/><br/><br/><br/>
+You also can check some screenshots in "Screenshots" folder in the root of the project. </br>
