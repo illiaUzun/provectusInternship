@@ -28,8 +28,8 @@ Administrator: <br/>
 To access admin web-interface you should enter the following url:<br/>
 localhost:8080<br/>
 and then login using following username and password:<br/>
-Username: admin
-Password: admin
+Username: admin <br/>
+Password: admin <br/>
 <br/>
 <br/>
 Administrator can: <br/>
