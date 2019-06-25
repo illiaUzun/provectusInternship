@@ -19,5 +19,5 @@ To access user in web-interface you should enter the following url:<br>
 locahost:8080/user<br>
 <br>
 ### User
-User can
-![Alt text](/Screenshots/book_list.png?raw=true)
+User can <br>
+![alt text](Screenshots/edit.png "Description goes here")
