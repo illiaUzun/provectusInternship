@@ -13,7 +13,7 @@ Default bootstrap templetes were used as Front-end.
 <br/>
 Result:<br/>
 <br/>
-##User:
+User:
 <br/>
 To access user in web-interface you should enter the following url:<br/>
 locahost:8080/user<br/>
@@ -25,7 +25,7 @@ User can: <br/>
 3) Check information about each book <br/>
 4) Order spicific book by filling an ordering form <br/>
 <br/>
-##Administrator: <br/>
+Administrator: <br/>
 To access admin web-interface you should enter the following url:<br/>
 localhost:8080<br/>
 and then login using following username and password:<br/>
