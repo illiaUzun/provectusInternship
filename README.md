@@ -11,7 +11,6 @@ admin username and password in database as was mentioned it task description. <b
 <br/>
 Default bootstrap templetes were used as Front-end.
 <br/>
-Result:<br/>
 <br/>
 User:
 <br/>
