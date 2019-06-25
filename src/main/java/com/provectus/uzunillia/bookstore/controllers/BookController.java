@@ -29,7 +29,7 @@ public class BookController {
                         @RequestParam(value = "author", defaultValue = "", required = false) String author,
                         @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
                         Model model) {
-        List<Book> books = filter(title, genre, author);
+        List<Book> books = filterListConroller(title, genre, author);
         model.addAttribute("books", books);
         model.addAttribute("allGenres", Genre.values());
         model.addAttribute("title", title);
@@ -43,7 +43,7 @@ public class BookController {
                         @RequestParam(value = "author", defaultValue = "", required = false) String author,
                         @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
                         Model model) {
-        List<Book> books = filter(title, genre, author);
+        List<Book> books = filterListConroller(title, genre, author);
         model.addAttribute("books", books);
         model.addAttribute("allGenres", Genre.values());
         model.addAttribute("title", title);
@@ -52,14 +52,14 @@ public class BookController {
         return "indexUser";
     }
 
-    private List<Book> filter(String title, String genre, String author) {
+    private List<Book> filterListConroller(String title, String genre, String author) {
         ArrayList<Book> filteredList = new ArrayList<>();
 
         if (bookService.findAll() != null) {
             for (Book book : bookService.findAll()) {
-                boolean isTitleMatches = Objects.requireNonNull(book.getTitle()).toLowerCase().startsWith(title);
+                boolean isTitleMatches = Objects.requireNonNull(book.getTitle().toLowerCase()).startsWith(title.toLowerCase());
                 boolean isGenreMatches = Objects.requireNonNull(Arrays.toString(book.getGenre())).contains(genre);
-                boolean isAuthorMatches = Objects.requireNonNull(Arrays.toString(book.getAuthor())).contains(author);
+                boolean isAuthorMatches = Objects.requireNonNull(Arrays.toString(book.getAuthor()).toLowerCase()).contains(author.toLowerCase());
 
                 if (isTitleMatches) {
                     if (isAuthorMatches) {
