@@ -11,15 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Spring Security configuration
- *
+ * <p>
  * I have one role here - admin
  * and have restricted default user
  * access to admin-panel
- *
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration  extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()

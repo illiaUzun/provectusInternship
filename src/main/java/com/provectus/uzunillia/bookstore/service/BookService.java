@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Transactional
@@ -37,6 +36,16 @@ public class BookService {
     }
 
     /**
+     * Get all the books with duplicated names.
+     *
+     * @return the list of entities
+     */
+    @Transactional(readOnly = true)
+    public List<Book> getAllDuplicatedBooks() {
+        return bookRepository.findAllWithDuplicatedNames();
+    }
+
+    /**
      * Get one book by id.
      *
      * @param id the id of the entity
@@ -56,4 +65,29 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
+    /**
+     * List filter util method
+     *
+     * @param title  - title of book to search
+     * @param genre  - title of book to search
+     * @param author - title of book to search
+     * @return List of book by searching parameters
+     */
+    public List<Book> filterList(String title, String genre, String author) {
+        ArrayList<Book> filteredList = new ArrayList<>();
+        for (Book book : findAll()) {
+            boolean isTitleMatches = Objects.requireNonNull(book.getTitle().toLowerCase()).startsWith(title.toLowerCase());
+            boolean isGenreMatches = Objects.requireNonNull(Arrays.toString(book.getGenre())).contains(genre);
+            boolean isAuthorMatches = Objects.requireNonNull(Arrays.toString(book.getAuthor()).toLowerCase()).contains(author.toLowerCase());
+
+            if (isTitleMatches) {
+                if (isAuthorMatches) {
+                    if (isGenreMatches) {
+                        filteredList.add(book);
+                    }
+                }
+            }
+        }
+        return filteredList;
+    }
 }

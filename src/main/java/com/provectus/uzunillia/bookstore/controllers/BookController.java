@@ -9,14 +9,11 @@ import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * Main controller class
- *
+ * <p>
  * contains REST api methods to access
  * execute Book services
  */
@@ -32,10 +29,10 @@ public class BookController {
 
     @GetMapping("/")
     public String indexAdmin(@RequestParam(value = "title", defaultValue = "", required = false) String title,
-                        @RequestParam(value = "author", defaultValue = "", required = false) String author,
-                        @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
-                        Model model) {
-        List<Book> books = filterList(title, genre, author);
+                             @RequestParam(value = "author", defaultValue = "", required = false) String author,
+                             @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
+                             Model model) {
+        List<Book> books = bookService.filterList(title, genre, author);
         model.addAttribute("books", books);
         model.addAttribute("allGenres", Genre.values());
         model.addAttribute("title", title);
@@ -44,12 +41,27 @@ public class BookController {
         return "index";
     }
 
+    @GetMapping("/duplicates")
+    public String duplicatedBooks(@RequestParam(value = "title", defaultValue = "", required = false) String title,
+                                  @RequestParam(value = "author", defaultValue = "", required = false) String author,
+                                  @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
+                                  Model model) {
+        List<Book> books = bookService.getAllDuplicatedBooks();
+        model.addAttribute("books", books);
+        model.addAttribute("allGenres", Genre.values());
+        model.addAttribute("title", title);
+        model.addAttribute("author", author);
+        model.addAttribute("genreSearch", genre);
+        return "index";
+    }
+
+
     @GetMapping("/user")
     public String indexUser(@RequestParam(value = "title", defaultValue = "", required = false) String title,
-                        @RequestParam(value = "author", defaultValue = "", required = false) String author,
-                        @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
-                        Model model) {
-        List<Book> books = filterList(title, genre, author);
+                            @RequestParam(value = "author", defaultValue = "", required = false) String author,
+                            @RequestParam(value = "genre", defaultValue = "", required = false) String genre,
+                            Model model) {
+        List<Book> books = bookService.filterList(title, genre, author);
         model.addAttribute("books", books);
         model.addAttribute("allGenres", Genre.values());
         model.addAttribute("title", title);
@@ -100,33 +112,5 @@ public class BookController {
     public String deleteBook(@RequestParam("id") Long id) {
         bookService.delete(id);
         return "redirect:/";
-    }
-
-    /**
-     * List filter util method
-     * @param title - title of book to search
-     * @param genre - title of book to search
-     * @param author - title of book to search
-     * @return List of book by searching parameters
-     */
-    private List<Book> filterList(String title, String genre, String author) {
-        ArrayList<Book> filteredList = new ArrayList<>();
-
-        if (bookService.findAll() != null) {
-            for (Book book : bookService.findAll()) {
-                boolean isTitleMatches = Objects.requireNonNull(book.getTitle().toLowerCase()).startsWith(title.toLowerCase());
-                boolean isGenreMatches = Objects.requireNonNull(Arrays.toString(book.getGenre())).contains(genre);
-                boolean isAuthorMatches = Objects.requireNonNull(Arrays.toString(book.getAuthor()).toLowerCase()).contains(author.toLowerCase());
-
-                if (isTitleMatches) {
-                    if (isAuthorMatches) {
-                        if (isGenreMatches) {
-                            filteredList.add(book);
-                        }
-                    }
-                }
-            }
-        }
-        return filteredList;
     }
 }

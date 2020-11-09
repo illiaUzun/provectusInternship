@@ -39,14 +39,14 @@ public class Book {
     @Column(name = "price")
     private BigDecimal price;
 
-    @Type( type = "string-array" )
+    @Type(type = "string-array")
     @Column(
             name = "author",
             columnDefinition = "text[]"
     )
     private String[] author;
 
-    @Type( type = "string-array" )
+    @Type(type = "string-array")
     @Column(
             name = "genre",
             columnDefinition = "text[]"
